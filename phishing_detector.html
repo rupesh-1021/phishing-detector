@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='sty.css') }}">
+	<script src="https://kit.fontawesome.com/f5b0e42257.js" crossorigin="anonymous"></script>
+    <title>Phishing Detector</title>
+</head>
+<body>
+
+    <div class="top">
+      <h1><b><a href="/">Phishing Detector</a></b></h1>
+    <div class="topnav" id="myTopnav">
+        <div class="nav-links">
+            <a href="#detectors-section" onclick="smoothScroll()" title="Scroll down to find the detectors"><i class="fas fa-search"></i> Detectors</a>
+            <a onclick="openForm()"  title="Click to see about the developer"><i class="fa-regular fa-user"></i> About the Developer</a>
+        </div>
+    </div>
+    </div>
+    <div class="about">
+        <h2>About the Website</h2>
+        <ul>
+            <li>The project "<b>Phishing Detector</b>" focuses on improving cyberattack detection by using machine learning algorithm, specifically <b>Support Vector Machines (SVM) & Naive Bayes</b>, to identify deceptive practices in digital environments. The primary objective is to detect phishing attacks through analysis of URLs, IP addresses, and domains. By leveraging these algorithms, the project aims to enhance detection accuracy and reduce the time taken for predictions.<br><br>
+            </li>
+            <li>The project involves building a phishing detection system, which uses the strengths of both SVM and Naive Bayes to classify URLs, IPs, and domains as either phishing or legitimate. SVM is utilized for separating different classes in feature space, while Naive Bayes is employed for probabilistic classification. The system architecture includes several components such as the raw dataset, feature extraction, and trained data classifiers, ensuring high accuracy and precision.<br><br>
+            </li>
+            <li>The project compares its proposed system against existing models and demonstrates significant improvements in accuracy, precision, and time efficiency, achieving a 90% accuracy rate and a prediction time of 12 milliseconds.
+            </li>
+            <li><b>System Architecture:</b> The system's architecture involves preprocessing of data, training using the SVM and Naive Bayes classifiers, and prediction output. This structure ensures the model processes inputs effectively and provides accurate results.</li>
+            <li><b>Implementation and Testing:</b> The project details the implementation of phishing detection using Python scripting, with a focus on training datasets and performing tests to evaluate system performance.</li>
+        </ul>
+    </div>
+    <ul>
+        <li>📈 Stay Informed, 🔒 Stay Secure..!!<br>
+            As the online landscape evolves, so do the threats. 
+            This app is continually updated to stay ahead of the curve, ensuring that you have the latest tools to safeguard your online presence.<br><br>
+        </li>
+        <li>Click upon any of your desired detector mentioned in the detectors and follow the procedure above.<br><br>
+            1. Give the input in which how many URLs/IPs/Domains you're willing to predict, and then click generate inputs.<br>
+            2. After the inputs were generated, enter the URLs or IPs or Domains to be predicted.<br>
+            3. Click on the predict button to predict whether the given URL/IP/Domain is a phishing or a Legitimate URL.<br>
+        </li>
+        <li><b>Disclaimer:</b><br>
+            Do not click any URL/IP/Domains until it was known to you and proceed with caution & at your own risk. Happy Surfing..!!🛡️🌐
+        </li>
+    </ul>
+ <div class="detectors-section">  
+    <h2>Detectors</h2><br>
+    <div class="detectors-container" id="detectors-section">
+    <div class="url-container">
+        <h3>URL Detector</h3>
+    <form id="urlForm" action="/predict" method="post">
+        <input type="hidden" name="prediction_type" value="url">
+        <label for="num_urls"><b>Number of URL(s):</b></label>
+        <input type="number" name="num_urls" id="num_urls" min="1" required><br>
+        <button type="button" onclick="generateURLInputs()">Generate Inputs</button><br><br>
+
+        <div id="urlInputsContainer"></div>
+
+        <input type="submit" value="Predict URL">
+    </form>
+    </div>
+    <div class="ip-container">
+        <h3>IP Detector</h3>
+    <form id="ipForm" action="/predict" method="post">
+        <input type="hidden" name="prediction_type" value="ip">
+        <label for="num_ips"><b>Number of IP Address:</b></label>
+        <input type="number" name="num_ips" id="num_ips" min="1" required><br>
+        <button type="button" onclick="generateIPInputs()">Generate Inputs</button><br><br>
+
+        <div id="ipInputsContainer"></div>
+        <input type="submit" value="Predict IP">
+		
+    </form>
+    </div>
+    <div class="domain-container">
+        <h3>Domain Detector</h3>
+    <form id="domainsForm" action="/predict" method="post">
+        <input type="hidden" name="prediction_type" value="domains">
+        <label for="num_domains"><b>Number of Domain(s):</b></label>
+        <input type="number" name="num_domains" id="num_domains" min="1" required><br>
+        <button type="button" onclick="generateDOMAINInputs()">Generate Inputs</button><br><br>
+
+        <div id="domainsInputsContainer"></div>
+        <input type="submit" value="Predict Domains">
+		
+    </form>
+    </div>
+ </div>
+ </div>
+
+ <div id="predictionResultsContainer">
+   {% if urlPredictions or ipPredictions or domainsPredictions %}
+        {% if urlPredictions %}
+        <h2>URL Predictions:</h2>
+        {% for counter, pred in urlPredictions %}
+            {% if pred == 0 %}
+                  <h3 style="color:red;">URL {{ counter }} {{ request.form['url' ~ counter] }}: It is a Phishing URL</h3>
+            {% elif pred == 1 %}
+                 <h3 style="color:green;">URL {{ counter }} {{ request.form['url' ~ counter] }}: It is a Legitimate URL</h3>
+            {% endif %}
+       {% endfor %}
+    {% endif %}
+
+    {% if ipPredictions %}
+        <h2>IP Predictions:</h2>
+        {% for counter, pred in ipPredictions %}
+            {% if pred == 0 %}
+                <h3 style="color:red;">IP {{ counter }} {{ request.form['ip' ~ counter] }}: It is a Phishing IP</h3>
+            {% elif pred == 1 %}
+                <h3 style="color:green;">IP {{ counter }} {{ request.form['ip' ~ counter] }}: It is a Legitimate IP</h3>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if domainsPredictions %}
+        <h2>Domains Predictions:</h2>
+        {% for counter, pred in domainsPredictions %}
+            {% if pred == 0 %}
+                <h3 style="color:red;">Domain {{ counter }} {{ request.form['domains' ~ counter] }}: It is a Phishing Domain</h3>
+            {% elif pred == 1 %}
+                <h3 style="color:green;">Domain {{ counter }} {{ request.form['domains' ~ counter] }}: It is a Legitimate Domain</h3>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+	<script>
+    window.onload = function () {
+    var predictionResultsContainer = document.getElementById('predictionResultsContainer');
+    predictionResultsContainer.style.display = 'block'; 
+    };
+    </script>
+        {% endif %}
+ </div>
+    
+ <div id="devForm" class="dev-Form">
+    <div id="dev-details">
+        <h2>Developer Details</h2>
+        <p><b>Rupesh Sai Teja Pitta</b></p>
+        <div class="contact">
+            <p><i class="fa-solid fa-phone"></i> Contact: <b>+91 9676195493</b></p>
+            <a href="https://www.linkedin.com/in/rupesh-sai-teja-pitta-55208724b" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></li>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=rupeshsaiteja9841@gmail.com&su=Inquiry&body=Hello, I would like to work with you." target="_blank"><i class="fa-solid fa-envelope"></i> Gmail</a>
+            <a href="https://www.instagram.com/thenameisrupesh21/?next=%2F" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <p>All Rights Reserved... | January 2024 |<br> <i class="fa-regular fa-copyright"></i> Designed and Developed by <b>Rupesh Sai Teja Pitta</b></p>
+    </div>
+</div>
+    
+    
+
+
+    <script>
+        function generateURLInputs() {
+            var numUrls = document.getElementById('num_urls').value;
+            var container = document.getElementById('urlInputsContainer');
+            container.innerHTML = '';
+    
+            for (var i = 1; i <= numUrls; i++) {
+                var label = document.createElement('label');
+                label.setAttribute('for', 'url' + i);
+                label.textContent = 'URL ' + i + ':';
+    
+                var input = document.createElement('input');
+                input.setAttribute('type', 'text');
+                input.setAttribute('name', 'url' + i);
+                input.setAttribute('required', 'true');
+    
+                var br = document.createElement('br');
+    
+                container.appendChild(label);
+                container.appendChild(input);
+                container.appendChild(br);
+            }
+        }
+    
+        function generateIPInputs() {
+            var numIps = document.getElementById('num_ips').value;
+            var container = document.getElementById('ipInputsContainer');
+            container.innerHTML = '';
+    
+            for (var i = 1; i <= numIps; i++) {
+                var label = document.createElement('label');
+                label.setAttribute('for', 'ip' + i);
+                label.textContent = 'IP ' + i + ':';
+    
+                var input = document.createElement('input');
+                input.setAttribute('type', 'text');
+                input.setAttribute('name', 'ip' + i);
+                input.setAttribute('pattern', '^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$');
+                input.setAttribute('title', 'Enter a valid IP address');
+                input.setAttribute('required', 'true');
+    
+                var br = document.createElement('br');
+    
+                container.appendChild(label);
+                container.appendChild(input);
+                container.appendChild(br);
+            }
+        }
+    
+        function generateDOMAINInputs() {
+            var numUrls = document.getElementById('num_domains').value;
+            var container = document.getElementById('domainsInputsContainer');
+            container.innerHTML = '';
+    
+            for (var i = 1; i <= numUrls; i++) {
+                var label = document.createElement('label');
+                label.setAttribute('for', 'domain' + i);
+                label.textContent = 'DOMAIN ' + i + ':';
+    
+                var input = document.createElement('input');
+                input.setAttribute('type', 'text');
+                input.setAttribute('name', 'domains' + i);
+                input.setAttribute('required', 'true');
+    
+                var br = document.createElement('br');
+    
+                container.appendChild(label);
+                container.appendChild(input);
+                container.appendChild(br);
+            }
+        }
+    function openForm() {
+        var devForm = document.querySelector(".dev-Form");
+        devForm.classList.toggle("active");
+    }
+    function smoothScroll() {
+        const target = document.getElementById('detectors-section');
+        target.scrollIntoView({ behavior: 'smooth' });
+    }
+       
+    </script>
+</body>
+</html>
