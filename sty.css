@@ -1,0 +1,249 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    animation: fadeIn 1s ease forwards;
+}
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+html{
+    scroll-behavior: smooth;
+}
+/*Header and nav css starts*/
+.top{
+  border-bottom:3px solid #3498db;
+  background-color: #dcdfe1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 15px;
+  font-family:Comic Sans MS;
+
+}
+
+.top h1{
+    font-size: 45px;
+    margin: 10px, 0;
+    font-family:Comic Sans MS;
+    cursor: pointer;
+}
+.top a{
+    text-decoration: none;
+    color: black;
+}
+
+.topnav {
+  overflow: hidden;
+}
+.nav-links{
+    padding: 15px;
+}
+.nav-links a{
+    position: relative;
+    display: inline-block;
+    padding: 20px 15px;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+    font-size: 25px;
+    margin: 10px 15px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: black;
+}
+
+.nav-links a:hover::after {
+    transform: scaleX(1);
+}
+/*Nav css ends here*/
+
+/*About section css starts*/
+.about h2{
+    font-size: 30px;
+}
+.about ul{
+    list-style-type: disc;
+    list-style-position: outside;
+}
+/*About css ends here*/
+
+/*Detectors css starts here*/
+.detectors-section h2{
+    font-size: 40px;
+}
+.detectors-section .detectors-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 50px;
+    align-items: start;
+}
+.detectors-section .url-container, .ip-container, .domain-container{
+    border: 2px solid black;
+    width: 400px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgb(51 51 51);
+    background-color: #ecf0f1;
+    justify-content: center;
+    transition: transform 0.5s ease;
+    border-radius: 15px;
+}
+.detectors-section .url-container:hover, .ip-container:hover, .domain-container:hover{
+    transform: translateY(-10px);
+}
+.detectors-section .url-container h3, .ip-container h3, .domain-container h3{
+    border-bottom: 3px solid black;
+    padding-bottom: 15px;
+}
+.detectors-section form {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#urlForm, #ipForm, #domainsForm {
+    background-color: #d3d3ff;
+}
+
+.detectors-section label {
+    display: block;
+    margin-bottom: 10px;
+    width: 300px;
+}
+.detectors-section input {
+    width: 250px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 2px solid black;
+    box-sizing: border-box;    
+    float:center;
+}
+.detectors-section input[type=submit] {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    float:center;
+    transition: background-color 0.5s ease;
+}
+.detectors-section input[type=submit]:hover{
+    background-color: #333;
+}
+.detectors-section button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.5s ease;
+}
+
+.detectors-section button:hover {
+    background-color: #333;
+}
+/*Detector css ends here*/
+
+/*Predictions container css starts here*/
+#predictionResultsContainer {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+	background-color: #d3d3ff;
+    display: none;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+/*Predictions container ends here*/
+
+
+h3 {
+    margin: 10px 0;
+    text-align: center;
+}
+h2{
+	color: black;
+	font-family:Comic Sans MS;
+	font-size:30px;
+}
+
+/*Developer css starts here*/
+@keyframes slideIn {
+    0% { opacity: 0; transform: translate(-50%, -100%) translateY(-100vh); }
+    100% { opacity: 1; transform: translate(-50%, -75%) translateY(0); }
+}
+#devForm{
+    display: none;
+    float: center;
+    width: 500px;
+    height: 400px;
+    border: 3px solid #333;
+    justify-content: center;
+    align-items: center;
+    background-color:#ecf0f1;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgb(51 51 51);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    animation: slideIn 1s ease-in-out forwards;
+    transform: translate(-50%, -75%);
+    padding: 20px;
+    text-align: center;
+}
+#devForm.active{
+    display: block;
+}
+#dev-details{
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: large;
+}
+#dev-details .contact{
+    display: flex;
+    flex-direction: column;
+    gap:15px;
+}
+#dev-details h2{
+  border-bottom: 3px solid black;
+  padding-bottom:15px;
+}
+#dev-details .contact a{
+    text-decoration: none;
+    color: black;
+    transition: color o.3s ease;
+}
+#dev-details .contact a:hover{
+    color: #d4af37;
+}
+/*Developer css ends here*/
+
